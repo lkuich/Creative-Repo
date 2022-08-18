@@ -1,0 +1,8 @@
+- name: Localhost
+  kind: postgres
+  configuration:
+    connection_info:
+      database_url: postgres://postgres:pgpass@postgres:5432/postgres
+      isolation_level: read-committed
+      use_prepared_statements: false
+  tables: "!include Localhost/tables/tables.yaml"

@@ -1,0 +1,14 @@
+query assets($categories: [Int!], $type: [media_type!], $platform: platform) {
+  asset(where: {category_id: {_in: $categories}, type: {_in: $type}, platform: {_eq: $platform}}) {
+    id
+    media_id
+    media {
+      key
+      filename
+    }
+    category {
+      name
+    }
+    platform
+  }
+}

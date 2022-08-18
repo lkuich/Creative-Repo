@@ -1,0 +1,11 @@
+FROM node:16.14.2-alpine
+
+WORKDIR /opt/client
+COPY ./package.json ./yarn.lock ./
+RUN yarn install
+RUN yarn build
+
+COPY . /opt/client
+
+EXPOSE 3000
+CMD ["yarn", "start"]

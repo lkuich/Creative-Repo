@@ -1,0 +1,17 @@
+mutation insertAsset(
+  $category_id: Int!
+  $media_id: Int!
+  $platform: platform!
+  $type: media_type!
+  $added_by_id: Int!
+) {
+  insert_asset_one(object: {
+    category_id: $category_id,
+    media_id: $media_id,
+    platform: $platform,
+    type: $type,
+    added_by_id: $added_by_id
+  }) {
+    id
+  }
+}

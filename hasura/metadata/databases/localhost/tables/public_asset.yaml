@@ -1,0 +1,13 @@
+table:
+  name: asset
+  schema: public
+object_relationships:
+- name: addedBy
+  using:
+    foreign_key_constraint_on: added_by_id
+- name: category
+  using:
+    foreign_key_constraint_on: category_id
+- name: media
+  using:
+    foreign_key_constraint_on: media_id

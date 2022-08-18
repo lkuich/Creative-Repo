@@ -1,0 +1,4 @@
+- "!include public_asset.yaml"
+- "!include public_categories.yaml"
+- "!include public_cr_user.yaml"
+- "!include public_media.yaml"
