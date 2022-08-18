@@ -38,6 +38,8 @@ CREATE TABLE asset (
 
   type media_type NOT NULL DEFAULT 'image',
 
+  downloads integer NOT NULL DEFAULT 0,
+
   loved_by_id integer,
   CONSTRAINT fk_loved_by FOREIGN KEY (loved_by_id) REFERENCES cr_user(id),
 

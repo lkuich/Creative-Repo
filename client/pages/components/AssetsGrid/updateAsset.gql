@@ -1,0 +1,7 @@
+mutation updateAsset($id: Int!, $set: asset_set_input!) {
+  update_asset(_set: $set, where: {id: {_eq: $id}}) {
+    returning {
+      id
+    }
+  }
+}

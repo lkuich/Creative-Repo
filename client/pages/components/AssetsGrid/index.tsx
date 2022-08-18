@@ -1,10 +1,10 @@
-import { useQuery } from '@apollo/client';
+import { useEffect } from 'react';
+import { useQuery, useMutation } from '@apollo/client';
 
-import cx from 'clsx';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 
-import { useAuth } from 'hooks/useAuth';
+// import { useAuth } from 'hooks/useAuth';
 
 import { RemoteImage, GetRemoteUrl } from 'components/Upload';
 import { Column, Row } from 'components/Group';
@@ -12,8 +12,9 @@ import { Column, Row } from 'components/Group';
 import useLocationSearch from 'hooks/useLocationSearch';
 
 import assetsQuery from './assets.gql';
+import updateAssetQuery from './updateAsset.gql';
+
 import styles from './styles.module.sass';
-import { useEffect } from 'react';
 
 function splitOrFirst(str, transformFn) {
   if (!str) {
@@ -30,7 +31,9 @@ function splitOrFirst(str, transformFn) {
 }
 
 export default function AssetsGrid({ lastUpdate }) {
-  const { crUser } = useAuth();
+  // const { crUser } = useAuth();
+
+  const [updateAsset] = useMutation(updateAssetQuery);
 
   const [categories] = useLocationSearch({ key: 'categories', initialValue: null });
   const [platforms] = useLocationSearch({ key: 'platforms', initialValue: null });
@@ -84,6 +87,7 @@ export default function AssetsGrid({ lastUpdate }) {
             <Row align='end'>
               <p>{getFilename(asset)}</p>
               <Button icon="pi pi-download" className="p-button-rounded p-button-text" aria-label="Download" onClick={() => downloadImage(asset)} />
+              <p>{asset.downloads}</p>
             </Row>
           </Column>
         </Card>
@@ -97,6 +101,17 @@ export default function AssetsGrid({ lastUpdate }) {
     link.href = await GetRemoteUrl(asset.media.key);
     link.download = getFilename(asset);
     link.click();
+
+    await updateAsset({
+      variables: {
+        id: asset.id,
+        set: {
+          downloads: asset.downloads + 1
+        }
+      }
+    });
+
+    await refetch();
   }
 
   function getFilename(asset) {
