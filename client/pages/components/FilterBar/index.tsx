@@ -14,8 +14,6 @@ export default function FilterBar() {
   const { data: categoryData } = useQuery(categoryQuery);
   const categoryOptions = categoryData?.categories || [];
 
-  console.log(categoryOptions)
-
   const [platforms, setPlatforms] = useLocationSearch({ key: 'platforms', initialValue: null });
 
   const platformOptions = [
@@ -30,11 +28,11 @@ export default function FilterBar() {
     { label: 'Video', value: 'video' }
   ];
 
-  const [filenameSearch, setFilenameSearch] = useLocationSearch({ key: 'filename', initialValue: '' });
+  // const [filenameSearch, setFilenameSearch] = useLocationSearch({ key: 'filename', initialValue: '' });
 
   return (
     <Row>
-      <MultiSelect value={categories?.split(',') || ''} options={categoryOptions} onChange={({ value }) => {
+      <MultiSelect value={categories?.split(',').map(s => parseInt(s))} options={categoryOptions} onChange={({ value }) => {
         if (value.length > 0) {
           setCategories(value.join(','));
         } else {
@@ -58,10 +56,10 @@ export default function FilterBar() {
         }
       }} placeholder="Select Asset Types" display="chip" />
 
-      <span className="p-input-icon-left">
+      {/* <span className="p-input-icon-left">
         <i className="pi pi-search" />
         <InputText value={filenameSearch} onChange={({ target }) => setFilenameSearch(target.value)} placeholder="Search Filename" />
-      </span>
+      </span> */}
     </Row>
   );
 }

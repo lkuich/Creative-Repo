@@ -11,21 +11,54 @@ import useLocationSearch from 'hooks/useLocationSearch';
 import assetsQuery from './assets.gql';
 import styles from './styles.module.sass';
 
+function splitOrFirst(str, transformFn) {
+  if (!str) {
+    return [];
+  }
+
+  const split = str?.split(',').map(s => transformFn ? transformFn(s) : s);
+
+  if (split) {
+    return split;
+  }
+
+  return [str];
+}
+
 export default function AssetsGrid() {
   const [categories] = useLocationSearch({ key: 'categories', initialValue: null });
   const [platforms] = useLocationSearch({ key: 'platforms', initialValue: null });
   const [assetTypes] = useLocationSearch({ key: 'assetType', initialValue: null });
-  const [filenameSearch] = useLocationSearch({ key: 'filename', initialValue: '' });
+  // const [filenameSearch] = useLocationSearch({ key: 'filename', initialValue: '' });
 
-  console.log(categories)
+  const _categories = splitOrFirst(categories, parseInt);
+  const _types = splitOrFirst(assetTypes);
+  const _platforms = splitOrFirst(platforms);
+
+  const variables = {
+    'bool_exp': {}
+  };
+
+  if (_categories.length > 0) {
+    variables.bool_exp.category_id = {
+      '_in': splitOrFirst(categories, parseInt)
+    };
+  }
+
+  if (_types.length > 0) {
+    variables.bool_exp.type = {
+      '_in': splitOrFirst(assetTypes)
+    };
+  }
+
+  if (_platforms.length > 0) {
+    variables.bool_exp.platform = {
+      '_in': splitOrFirst(platforms)
+    };
+  }
 
   const { data: assetsData } = useQuery(assetsQuery, {
-    variables: {
-      categories,
-      platforms,
-      assetTypes,
-      filenameSearch
-    }
+    variables
   });
 
   const assets = assetsData?.asset || [];
