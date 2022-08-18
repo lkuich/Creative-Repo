@@ -6,10 +6,9 @@ import 'primeflex/primeflex.css';
 
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
+import Head from 'next/head';
 
 import { GqlAuthProvider } from 'hooks/useAuth';
-
-import Head from 'next/head';
 
 import { Column } from 'components/Group';
 

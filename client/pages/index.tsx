@@ -12,7 +12,7 @@ import AddAssetForm from './components/AddAssetForm';
 const Home: NextPage = () => {
   const [_showModal, setShowModal] = useState(false);
 
-  const [lastUpdate, setLastUpdate] = useState(null);
+  const [lastUpdate, setLastUpdate] = useState<number | null>(null);
 
   return (
     <>

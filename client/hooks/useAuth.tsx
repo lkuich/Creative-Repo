@@ -73,6 +73,7 @@ export function useAuth() {
       }
     }`, {
     variables: {
+      // @ts-ignore
       email: user.email
     }
   });

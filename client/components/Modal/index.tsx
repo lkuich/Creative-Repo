@@ -1,4 +1,4 @@
-import { useState, forwardRef } from 'react';
+import { useState } from 'react';
 
 import { Dialog } from 'primereact/dialog';
 
@@ -12,6 +12,7 @@ export function Modal({ header, trigger, className, children }) {
           {trigger}
         </div>
       )}
+      {/* eslint-disable-next-line react/forbid-component-props */}
       <Dialog header={header} visible={showModal} style={{ width: '50vw' }} onHide={onClose}>
         {children}
       </Dialog>
@@ -25,24 +26,9 @@ export function Modal({ header, trigger, className, children }) {
 
 export function ModalVisible({ header, visible, onHide, children }) {
   return (
+    // eslint-disable-next-line react/forbid-component-props
     <Dialog header={header} visible={visible} style={{ width: '50vw' }} onHide={onHide}>
       {children}
     </Dialog>
   );
 }
-
-// TODO: Ref based Modal??
-// eslint-disable-next-line react/display-name
-export const ModalRef = forwardRef(({ header, children }, ref) => {
-  const [showModal, setShowModal] = useState(false);
-
-  return (
-    <Dialog ref={ref} header={header} visible={showModal} style={{ width: '50vw' }} onHide={onClose}>
-      {children}
-    </Dialog>
-  );
-
-  function onClose() {
-    setShowModal(false);
-  }
-});

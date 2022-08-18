@@ -129,7 +129,8 @@ export const RemoteImage = ({ s3Key }) => {
   );
 
   return (
-    <img src={data} />
+    // eslint-disable-next-line
+    <img src={data} alt="S3 Image" />
   );
 };
 

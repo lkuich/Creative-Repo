@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 interface PreviewImageProps {
@@ -16,6 +15,7 @@ interface RemoteImageProps {
 
 export function PreviewImage({ src, width, height, alt, ...rest }: PreviewImageProps) {
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img src={src} alt={alt} />
   );
 }
@@ -40,6 +40,7 @@ export function RemoteImage({ src, alt, fallback, ...rest }: RemoteImageProps) {
   }
 
   return (
+    // eslint-disable-next-line @next/next/no-img-element
     <img src={_src} alt={alt} {...rest} onError={onError} />
   );
 

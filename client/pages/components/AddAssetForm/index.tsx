@@ -1,5 +1,6 @@
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/client';
+
 import { Column } from 'components/Group';
 import { Form, FormFooterButtons } from 'components/Input';
 
@@ -24,7 +25,9 @@ export default function AddAssetForm({ asset = {}, onClose }) {
   const assetTypeOptions = ['Image', 'Video'];
 
   // Set default values
+  // @ts-ignore
   if (!asset?.id) {
+    // @ts-ignore
     asset.type = 'Image';
   }
 

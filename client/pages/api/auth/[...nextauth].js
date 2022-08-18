@@ -1,5 +1,5 @@
-import NextAuth from "next-auth";
-import Auth0Provider from "next-auth/providers/auth0";
+import NextAuth from 'next-auth';
+import Auth0Provider from 'next-auth/providers/auth0';
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -7,8 +7,8 @@ export default NextAuth({
     Auth0Provider({
       clientId: process.env.AUTH0_CLIENT,
       clientSecret: process.env.AUTH0_CLIENT_SECRET,
-      issuer: process.env.AUTH0_URI,
-    }),
+      issuer: process.env.AUTH0_URI
+    })
   ],
   callbacks: {
     async jwt({ token, account, profile }) {
@@ -17,8 +17,8 @@ export default NextAuth({
       }
 
       if (profile) {
-        token.role = profile["https://hasura.io/jwt/claims"]["x-hasura-role"];
-        token.email_verified = profile["email_verified"];
+        token.role = profile['https://hasura.io/jwt/claims']['x-hasura-role'];
+        token.email_verified = profile['email_verified'];
       }
 
       return token;
@@ -29,6 +29,6 @@ export default NextAuth({
       session.emailVerified = token.email_verified;
 
       return session;
-    },
-  },
+    }
+  }
 });

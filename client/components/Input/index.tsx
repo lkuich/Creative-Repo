@@ -109,6 +109,7 @@ function ManagedFormInputs({ formHook }) {
       InputCalendar: _InputCalendar,
       InputSelectButton: _InputSelectButton
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
 
   return components;
@@ -159,7 +160,8 @@ export function FormField({ label, name, isRequired = false, control, errors, fu
       <label htmlFor={name} className={cx({ 'p-error': errors?.name })}>{isRequired ? '*' : ''}{label}</label>
       <Controller name={name} control={control} rules={{ required: isRequired ? `${label} is required.` : false }} render={({ field, fieldState }) => (
         children(field, fieldState)
-      )} />
+      )}
+      />
       {getFormErrorMessage()}
     </div>
   );
@@ -183,6 +185,7 @@ export function ReadOnlyFormField({ label, isRequired = false, fullWidth = false
 export function HiddenInput({ name, value, register, setValue }) {
   useEffect(() => {
     setValue(name, value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, value]);
 
   return (
@@ -267,7 +270,8 @@ export function InputNumber({ label, name, isRequired, controlProps, fullWidth, 
       {(field, fieldState) => (
         <PrimeInputNumber id={field.name} {...field} className={cx({ 'p-invalid': fieldState.error })} onChange={({ value }) =>
           field.onChange(value)
-        } {...props} />
+        } {...props}
+        />
       )}
     </FormField>
   );
@@ -293,7 +297,8 @@ export function InputDropdown({ label, name, isRequired, options, controlProps, 
         <Dropdown id={field.name} value={field.value} onChange={(e) => {
           onChange && onChange(e);
           return field.onChange(e);
-        }} options={options} className={cx({ 'p-invalid': fieldState.error })} placeholder="None" {...props} />
+        }} options={options} className={cx({ 'p-invalid': fieldState.error })} placeholder="None" {...props}
+        />
       )}
     </FormField>
   );
@@ -319,7 +324,8 @@ export function InputSwitch({ label, labelAlign, name, checked, controlProps, fu
         <PrimeInputSwitch id={field.name} {...field} className={cx(labelAlign === 'x' ? styles.inputSwitchY : styles.inputSwitch, { 'p-invalid': fieldState.error })} checked={field.value} onChange={(e) => {
           onChange && onChange(e);
           return field.onChange(e);
-        }} {...props} />
+        }} {...props}
+        />
       )}
     </FormField>
   );
@@ -344,7 +350,8 @@ export function InputSelectButton({ label, name, options, controlProps, fullWidt
         <SelectButton id={field.name} {...field} className={cx({ 'p-invalid': fieldState.error })} options={options} onChange={(e) => {
           onChange && onChange(e);
           return field.onChange(e);
-        }} {...props} />
+        }} {...props}
+        />
       )}
     </FormField>
   );
@@ -372,8 +379,9 @@ export function InputMultiSelect({ label, name, options, controlProps, isRequire
           <PrimeMultiSelect id={field.name} {...field} className={cx({ 'p-invalid': fieldState.error })} options={options} display="chip" onChange={(e) => {
             onChange && onChange(e.value);
             return field.onChange(e);
-          }} {...props} />
-        )
+          }} {...props}
+          />
+        );
       }}
     </FormField>
   );
@@ -398,7 +406,8 @@ export function InputCalendar({ label, name, controlProps, fullWidth, isRequired
           <Calendar id={field.name} {...field} className={cx({ 'p-invalid': fieldState.error })} onChange={(e) => {
             onChange && onChange(e.value);
             return field.onChange(e);
-          }} {...props} />
+          }} {...props}
+          />
         );
       }}
     </FormField>

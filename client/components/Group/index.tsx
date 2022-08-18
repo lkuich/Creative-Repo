@@ -5,11 +5,11 @@ import { GenericProps } from '../index';
 import styles from './style.module.sass';
 
 interface GroupProps extends GenericProps {
-  direction?: 'row' | 'column';
-  gap?: '0' | '1' | '2' | '3' | '4';
+  direction?: 'row' | 'column' | string;
+  gap?: '0' | '1' | '2' | '3' | '4' | string;
   fullWidth?: boolean;
-  align?: 'stretch' | 'flex-start' | 'center' | 'flex-end' | 'baseline';
-  justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly';
+  align?: 'stretch' | 'flex-start' | 'center' | 'flex-end' | 'baseline' | string;
+  justify?: 'start' | 'end' | 'center' | 'between' | 'around' | 'evenly' | string;
 }
 
 function Group({ children, className, direction = 'row', gap = '2', fullWidth, align, justify = 'start', wrap, 'data-cy': dataCy, ...rest }: GroupProps) {

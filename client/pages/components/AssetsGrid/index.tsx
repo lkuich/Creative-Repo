@@ -16,7 +16,7 @@ import updateAssetQuery from './updateAsset.gql';
 
 import styles from './styles.module.sass';
 
-function splitOrFirst(str, transformFn) {
+function splitOrFirst(str, transformFn?) {
   if (!str) {
     return [];
   }
@@ -49,18 +49,21 @@ export default function AssetsGrid({ lastUpdate }) {
   };
 
   if (_categories.length > 0) {
+    // @ts-ignore
     variables.bool_exp.category_id = {
       '_in': splitOrFirst(categories, parseInt)
     };
   }
 
   if (_types.length > 0) {
+    // @ts-ignore
     variables.bool_exp.type = {
       '_in': splitOrFirst(assetTypes)
     };
   }
 
   if (_platforms.length > 0) {
+    // @ts-ignore
     variables.bool_exp.platform = {
       '_in': splitOrFirst(platforms)
     };
@@ -72,6 +75,7 @@ export default function AssetsGrid({ lastUpdate }) {
 
   useEffect(() => {
     lastUpdate && refetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lastUpdate]);
 
   const assets = assetsData?.asset || [];

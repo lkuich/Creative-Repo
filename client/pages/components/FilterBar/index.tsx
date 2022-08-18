@@ -38,7 +38,8 @@ export default function FilterBar() {
         } else {
           setCategories(value[0]);
         }
-      }} optionLabel="name" optionValue="id" placeholder="Select Master Categories" display="chip" />
+      }} optionLabel="name" optionValue="id" placeholder="Select Master Categories" display="chip"
+      />
 
       <MultiSelect value={platforms?.split(',') || ''} options={platformOptions} onChange={({ value }) => {
         if (value.length > 0) {
@@ -46,7 +47,8 @@ export default function FilterBar() {
         } else {
           setPlatforms(value[0]);
         }
-      }} placeholder="Select Platforms" display="chip" />
+      }} placeholder="Select Platforms" display="chip"
+      />
 
       <MultiSelect value={assetTypes?.split(',') || ''} options={assetTypeOptions} onChange={({ value }) => {
         if (value.length > 0) {
@@ -54,7 +56,8 @@ export default function FilterBar() {
         } else {
           setAssetTypes(value[0]);
         }
-      }} placeholder="Select Asset Types" display="chip" />
+      }} placeholder="Select Asset Types" display="chip"
+      />
 
       {/* <span className="p-input-icon-left">
         <i className="pi pi-search" />
