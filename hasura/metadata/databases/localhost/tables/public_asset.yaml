@@ -8,6 +8,9 @@ object_relationships:
 - name: category
   using:
     foreign_key_constraint_on: category_id
+- name: lovedBy
+  using:
+    foreign_key_constraint_on: loved_by_id
 - name: media
   using:
     foreign_key_constraint_on: media_id

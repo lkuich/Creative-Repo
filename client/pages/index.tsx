@@ -12,17 +12,21 @@ import AddAssetForm from './components/AddAssetForm';
 const Home: NextPage = () => {
   const [_showModal, setShowModal] = useState(false);
 
+  const [lastUpdate, setLastUpdate] = useState(null);
+
   return (
     <>
       <ModalVisible header="Add Creative" visible={_showModal} onHide={hideModal}>
         <AddAssetForm onClose={hideModal} />
       </ModalVisible>
       <Column>
-        <Row>
-          <FilterBar />
+        <Row justify='between'>
+          <h2>Creative Repo</h2>
           <Button label="Add Creative" icon="pi pi-plus-circle" onClick={showModal} />
         </Row>
-        <AssetsGrid />
+        <FilterBar />
+        <br />
+        <AssetsGrid lastUpdate={lastUpdate} />
       </Column>
     </>
   );
@@ -33,6 +37,8 @@ const Home: NextPage = () => {
 
   function hideModal() {
     setShowModal(false);
+
+    setLastUpdate(Date.now());
   }
 };
 

@@ -29,3 +29,12 @@ img {
   padding-left: 8px !important;
   padding-right: 8px !important;
 }
+
+.p-card-body {
+  height: 100%;
+}
+
+.p-card-content {
+  height: 100%;
+  padding-top: 12px !important;
+}

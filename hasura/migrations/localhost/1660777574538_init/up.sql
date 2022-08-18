@@ -38,6 +38,9 @@ CREATE TABLE asset (
 
   type media_type NOT NULL DEFAULT 'image',
 
+  loved_by_id integer,
+  CONSTRAINT fk_loved_by FOREIGN KEY (loved_by_id) REFERENCES cr_user(id),
+
   created_at timestamp NOT NULL DEFAULT now(),
   updated_at timestamp NOT NULL DEFAULT now(),
   deleted_at timestamp

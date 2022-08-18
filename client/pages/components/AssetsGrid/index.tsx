@@ -1,15 +1,19 @@
 import { useQuery } from '@apollo/client';
 
+import cx from 'clsx';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 
-import { RemoteImage } from 'components/Upload';
+import { useAuth } from 'hooks/useAuth';
+
+import { RemoteImage, GetRemoteUrl } from 'components/Upload';
 import { Column, Row } from 'components/Group';
 
 import useLocationSearch from 'hooks/useLocationSearch';
 
 import assetsQuery from './assets.gql';
 import styles from './styles.module.sass';
+import { useEffect } from 'react';
 
 function splitOrFirst(str, transformFn) {
   if (!str) {
@@ -25,7 +29,9 @@ function splitOrFirst(str, transformFn) {
   return [str];
 }
 
-export default function AssetsGrid() {
+export default function AssetsGrid({ lastUpdate }) {
+  const { crUser } = useAuth();
+
   const [categories] = useLocationSearch({ key: 'categories', initialValue: null });
   const [platforms] = useLocationSearch({ key: 'platforms', initialValue: null });
   const [assetTypes] = useLocationSearch({ key: 'assetType', initialValue: null });
@@ -57,29 +63,43 @@ export default function AssetsGrid() {
     };
   }
 
-  const { data: assetsData } = useQuery(assetsQuery, {
+  const { data: assetsData, refetch } = useQuery(assetsQuery, {
     variables
   });
+
+  useEffect(() => {
+    lastUpdate && refetch();
+  }, [lastUpdate]);
 
   const assets = assetsData?.asset || [];
 
   return (
-    <div>
+    <Row gap="5" wrap="wrap">
       {assets.map(asset => (
         <Card key={asset.id} className={styles.card}>
-          <Column align='center'>
+          {/* <Button icon0="pi pi-heart" className={cx('p-button-rounded', 'p-button-danger', asset.loved_by_id !== crUser?.id && 'p-button-outlined')} aria-label="Favorite" /> */}
+
+          <Column align='center' justify='between' fullWidth className={styles.cardColumn}>
             <RemoteImage s3Key={asset.media.key} />
-            <Row>
+            <Row align='end'>
               <p>{getFilename(asset)}</p>
-              <Button icon="pi pi-download" className="p-button-rounded p-button-text" aria-label="Download" />
+              <Button icon="pi pi-download" className="p-button-rounded p-button-text" aria-label="Download" onClick={() => downloadImage(asset)} />
             </Row>
           </Column>
         </Card>
       ))}
-    </div>
+    </Row>
   );
 
+  async function downloadImage(asset) {
+    const link = document.createElement('a');
+
+    link.href = await GetRemoteUrl(asset.media.key);
+    link.download = getFilename(asset);
+    link.click();
+  }
+
   function getFilename(asset) {
-    return `${asset.category.name}_${asset.platform}_${asset.id}.${asset.media.filename.split('.')[1]}`;
+    return `${asset.category.name.replaceAll(' ', '_').toLowerCase()}_${asset.platform}_${asset.id}.${asset.media.filename.split('.')[1]}`;
   }
 }

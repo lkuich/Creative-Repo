@@ -9,5 +9,6 @@ query assets($bool_exp: asset_bool_exp) {
       name
     }
     platform
+    loved_by_id
   }
 }
