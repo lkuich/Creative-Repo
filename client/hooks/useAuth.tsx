@@ -1,6 +1,6 @@
 import { useCreation } from 'ahooks';
 import { useState, createContext, useContext } from 'react';
-import { useSession, signIn } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
 
@@ -12,7 +12,7 @@ function LoginPage() {
   const [signInState, setSignInState] = useState();
 
   useCreation(() => {
-    signIn('auth0').then((s) => setSignInState);
+    return signIn('auth0').then(setSignInState);
   }, []);
 
   return signInState || null;

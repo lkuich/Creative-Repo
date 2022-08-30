@@ -149,28 +149,28 @@ export const GetRemoteUrl = async (s3Key) => {
   return result;
 };
 
-export const UploadButtonInput = ({ onUpload, acceptType = '', auto = false, mediaId }) => {
+export const UploadButtonInput = ({ onUpload, acceptType = '', auto = true, mediaId }) => {
   const fileUploadRef = useRef(null);
   const uploadTarget = process.env.API_HOST ? `${process.env.API_HOST}/storage/upload` : 'http://localhost:3006/storage/upload';
   const uploadFolder = process.env.S3_BUCKET || '/localhost/';
 
   const { token } = useAuth();
 
-  const cmRef = useRef(null);
+  // const cmRef = useRef(null);
 
   const [showModal, setShowModal] = useState(false);
 
-  const buttonModel = [
-    {
-      label: 'Edit Creative',
-      icon: 'pi pi-pencil',
-      command: () => {
-        setShowModal(true);
-      }
-    }
-  ];
+  // const buttonModel = [
+  //   {
+  //     label: 'Edit Creative',
+  //     icon: 'pi pi-pencil',
+  //     command: () => {
+  //       setShowModal(true);
+  //     }
+  //   }
+  // ];
 
-  const klass = cx(mediaId && styles.uploadButton);
+  // const klass = cx(mediaId && styles.uploadButton);
 
   return (
     <div className={styles.uploadInput}>
@@ -188,9 +188,7 @@ export const UploadButtonInput = ({ onUpload, acceptType = '', auto = false, med
         auto={auto}
         onBeforeSend={beforeSend}
         accept={acceptType}
-        maxFileSize={1000000}
         onUpload={onBasicUpload}
-      // className={klass}
       />
       {/* {mediaId && (
         <>

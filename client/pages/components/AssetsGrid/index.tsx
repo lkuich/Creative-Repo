@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
+import gql from 'graphql-tag';
 
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
@@ -80,30 +81,44 @@ export default function AssetsGrid({ lastUpdate }) {
 
   const assets = assetsData?.asset || [];
 
-  return (
-    <Row gap="5" wrap="wrap">
-      {assets.map(asset => (
-        <Card key={asset.id} className={styles.card}>
-          {/* <Button icon0="pi pi-heart" className={cx('p-button-rounded', 'p-button-danger', asset.loved_by_id !== crUser?.id && 'p-button-outlined')} aria-label="Favorite" /> */}
+  const { data: categoryData } = useQuery(categoryQuery);
+  const categoryOptions = categoryData?.categories || [];
 
-          <Column align='center' justify='between' fullWidth className={styles.cardColumn}>
-            <RemoteImage s3Key={asset.media.key} />
-            <Row align='end'>
-              <p>{getFilename(asset)}</p>
-              <Button icon="pi pi-download" className="p-button-rounded p-button-text" aria-label="Download" onClick={() => downloadImage(asset)} />
-              <p>{asset.downloads}</p>
-            </Row>
-          </Column>
-        </Card>
-      ))}
-    </Row>
+  const categoryHeaders = _categories.length > 0 ?
+    categoryOptions.filter(c => _categories.includes(c.id)).map(c => c.name) :
+    categoryOptions.map(c => c.name);
+
+  return (
+    categoryHeaders.map(header => (
+      <Column key={header}>
+        <h2>
+          {header}
+        </h2>
+        <Row gap="5" wrap="wrap">
+          {assets.filter(a => a.category.name === header).map((asset, i) => (
+            <Card key={asset.id} className={styles.card}>
+              {/* <Button icon0="pi pi-heart" className={cx('p-button-rounded', 'p-button-danger', asset.loved_by_id !== crUser?.id && 'p-button-outlined')} aria-label="Favorite" /> */}
+
+              <Column align='center' justify='between' fullWidth className={styles.cardColumn}>
+                <RemoteImage s3Key={asset.media.key} />
+                <Row align='end'>
+                  <p>{getFilename(asset, i)}</p>
+                  <Button icon="pi pi-download" className="p-button-rounded p-button-text" aria-label="Download" onClick={() => downloadImage(asset, i)} />
+                  <p>{asset.downloads}</p>
+                </Row>
+              </Column>
+            </Card>
+          ))}
+        </Row>
+      </Column>
+    ))
   );
 
-  async function downloadImage(asset) {
+  async function downloadImage(asset, i) {
     const link = document.createElement('a');
 
     link.href = await GetRemoteUrl(asset.media.key);
-    link.download = getFilename(asset);
+    link.download = getFilename(asset, i);
     link.click();
 
     await updateAsset({
@@ -118,7 +133,15 @@ export default function AssetsGrid({ lastUpdate }) {
     await refetch();
   }
 
-  function getFilename(asset) {
-    return `${asset.category.name.replaceAll(' ', '_').toLowerCase()}_${asset.platform}_${asset.id}.${asset.media.filename.split('.')[1]}`;
+  function getFilename(asset, i) {
+    return `${asset.category.name.replaceAll(' ', '_').toLowerCase()}_${asset.platform}_${i + 1}.${asset.media.filename.split('.')[1]}`;
   }
 }
+
+const categoryQuery = gql`
+  {
+    categories {
+      id
+      name
+    }
+  }`;
