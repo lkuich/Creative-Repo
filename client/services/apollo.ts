@@ -20,9 +20,11 @@ const createApolloClient = (authToken: string) => {
     if (hasError) {
       const errorCode = errors[0].extensions.code;
 
-      if (errorCode === 'invalid-jwt' || '') {
-        signOut();
-      }
+      console.log(errorCode)
+
+      // if (errorCode === 'invalid-jwt' || '') {
+      //   signOut();
+      // }
     }
   });
 

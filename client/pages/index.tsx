@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import { useState } from 'react';
 import { Button } from 'primereact/button';
+import { signOut } from 'next-auth/react';
 
 import { Row, Column } from 'components/Group';
 import { ModalVisible } from 'components/Modal';
@@ -22,7 +23,10 @@ const Home: NextPage = () => {
       <Column>
         <Row justify='between'>
           <h2>Creative Repo</h2>
-          <Button label="Add Creative" icon="pi pi-plus-circle" onClick={showModal} />
+          <Row>
+            <Button label="Add Creative" icon="pi pi-plus-circle" onClick={showModal} />
+            <Button icon="pi pi-sign-out" className="p-button-rounded p-button-outlined" aria-label="Sign Out" onClick={() => signOut({ callbackUrl: 'http://localhost:3000/api/auth/logout' })} />
+          </Row>
         </Row>
         <FilterBar />
         <br />

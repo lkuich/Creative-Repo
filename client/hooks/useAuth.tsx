@@ -1,34 +1,31 @@
-import { useCreation } from 'ahooks';
-import { useState, createContext, useContext } from 'react';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useState } from 'react';
+import { useSession, signIn } from 'next-auth/react';
 import { ApolloProvider, useQuery } from '@apollo/client';
 import gql from 'graphql-tag';
+import zustand from 'zustand';
 
 import createApolloClient from '../services/apollo';
 
-const context = createContext({ user: {}, role: '', token: '' });
-
-function LoginPage() {
-  const [signInState, setSignInState] = useState();
-
-  useCreation(() => {
-    return signIn('auth0').then(setSignInState);
-  }, []);
-
-  return signInState || null;
-}
+// eslint-disable-next-line import/no-mutable-exports
+export let useAuth;
 
 export function GqlAuthProvider({ children }) {
   const { data, status } = useSession();
+
+  useAuth = zustand(() => ({
+    user: null,
+    role: 0,
+    token: '',
+    crUser: {}
+  }));
 
   if (status === 'loading') {
     return null;
   }
 
   if (!data) {
-    return (
-      <LoginPage />
-    );
+    signIn('auth0');
+    return null;
   }
 
   const { user, role, accessToken } = data;
@@ -44,27 +41,10 @@ export function GqlAuthProvider({ children }) {
   );
 }
 
-export function GqlProvider({ user, role, accessToken, children }) {
+function GqlProvider({ user, role, accessToken, children }) {
   const [client] = useState(createApolloClient(accessToken));
 
-  return (
-    <ApolloProvider client={client}>
-      <context.Provider value={({ user, role, token: accessToken })}>
-        {children}
-      </context.Provider>
-    </ApolloProvider>
-  );
-}
-
-export function useAuth() {
-  const r = useContext(context);
-  const { user, role, token } = r;
-
-  // const _role = {
-  //   'admin': Role.Admin
-  // }[role];
-
-  const { data, loading, error } = useQuery(gql`
+  const { data } = useQuery(gql`
     query crUser($email: String!) {
       cr_user(where: {email: {_eq: $email}}) {
         id
@@ -75,16 +55,24 @@ export function useAuth() {
     variables: {
       // @ts-ignore
       email: user.email
-    }
+    },
+    client
   });
 
-  if (loading || error) {
-    if (error) {
-      console.error(error);
-    }
+  if (data) {
+    useAuth.setState({
+      user,
+      role,
+      token: accessToken,
+      crUser: data?.cr_user[0]
+    });
 
-    return { user, role, rawRole: role, token };
+    return (
+      <ApolloProvider client={client}>
+        {children}
+      </ApolloProvider>
+    );
   }
 
-  return { user, role, rawRole: role, token, crUser: data?.cr_user[0] };
+  return null;
 }

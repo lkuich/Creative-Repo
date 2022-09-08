@@ -21,13 +21,11 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         <title>Creative Repo</title>
       </Head>
       <GqlAuthProvider>
-        {/* <div className={styles['main-grid']}> */}
         <Column className={styles.mainPage}>
           <Component {...pageProps} />
         </Column>
-        {/* </div> */}
       </GqlAuthProvider>
-    </SessionProvider>
+    </SessionProvider >
   );
 }
 
