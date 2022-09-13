@@ -7,6 +7,9 @@ custom: ${file(./env.yml)}
 provider:
   name: aws
   runtime: nodejs14.x
+  apiGateway:
+    binaryMediaTypes:
+      - '*/*'
   environment:
     S3_BUCKET: ${self:custom.S3_BUCKET}
     S3_ACCESS_KEY_ID: ${self:custom.S3_ACCESS_KEY_ID}

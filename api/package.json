@@ -22,8 +22,8 @@
     "serverless-http": "^2.7.0"
   },
   "scripts": {
-    "dev": "node src/index.js",
-    "watch": "nodemon --inspect=0.0.0.0:9229 src/index.js"
+    "dev": "node index.js",
+    "watch": "nodemon --inspect=0.0.0.0:9229 index.js"
   },
   "devDependencies": {
     "nodemon": "^2.0.16"

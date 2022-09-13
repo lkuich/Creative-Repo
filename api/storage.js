@@ -130,7 +130,7 @@ router.get("/file/*", async (req, res) => {
 
     const object = await s3Client.send(new GetObjectCommand(params));
 
-    return object.Body.pipe(res);
+    return await object.Body.pipe(res);
   } catch (e) {
     console.error(e.stack);
 
