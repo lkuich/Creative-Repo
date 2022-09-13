@@ -1,7 +1,7 @@
 export default function handler(_, res) {
-  const returnTo = encodeURI('http://localhost:3000/');
+  const returnTo = encodeURI(process.env.NEXT_PUBLIC_LOGOUT_URI);
 
   res.redirect(
-    `${process.env.AUTH0_URI}/v2/logout?federated&returnTo=${returnTo}`
+    `${process.env.NEXT_PUBLIC_AUTH0_URI}/v2/logout?federated&returnTo=${returnTo}`
   );
 }
