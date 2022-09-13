@@ -12,6 +12,10 @@ import insertAssetQuery from './insertAsset.gql';
 export default function AddAssetForm({ asset = {}, onClose }) {
   const { crUser } = useAuth();
 
+  if (!crUser?.id) {
+    console.error('No user ID found');
+  }
+
   const { data: categoryData } = useQuery(categoryQuery);
   const [insertAsset] = useMutation(insertAssetQuery);
 

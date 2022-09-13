@@ -151,8 +151,8 @@ export const GetRemoteUrl = async (s3Key) => {
 
 export const UploadButtonInput = ({ onUpload, acceptType = '', auto = true, mediaId }) => {
   const fileUploadRef = useRef(null);
-  const uploadTarget = process.env.API_HOST ? `${process.env.API_HOST}/storage/upload` : 'http://localhost:3006/storage/upload';
-  const uploadFolder = process.env.S3_BUCKET || '/localhost/';
+  const uploadTarget = process.env.NEXT_PUBLIC_API_HOST ? `${process.env.NEXT_API_HOST}/storage/upload` : 'http://localhost:3006/storage/upload';
+  const uploadFolder = process.env.NEXT_PUBLIC_S3_BUCKET || '/localhost/';
 
   const { token } = useAuth();
 

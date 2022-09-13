@@ -1,3 +1,4 @@
+const serverless = require("serverless-http");
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
@@ -8,8 +9,6 @@ const jwks = require("jwks-rsa");
 const { getAuthToken, hasAdminOverride } = require("./utils");
 
 const storage = require("./storage");
-const events = require("./events");
-const actions = require("./actions");
 
 const app = express();
 
@@ -67,8 +66,6 @@ app.use(async (req, res, next) => {
 
 // Routes
 app.use("/storage", storage);
-app.use("/events", events);
-app.use("/actions", actions);
 
 // Error handling
 app.use((err, req, res, next) => {
@@ -82,7 +79,4 @@ app.use((err, req, res, next) => {
   next();
 });
 
-const port = process.env.PORT || 3006;
-app.listen(port, () => {
-  console.log(`Express listening on: ${port}`);
-});
+module.exports.handler = serverless(app);

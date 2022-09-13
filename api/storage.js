@@ -19,7 +19,7 @@ const s3Client = new S3Client({
     secretAccessKey: S3_SECRET_ACCESS_KEY,
   },
   forcePathStyle: true,
-  region: "us-west-2",
+  region: "us-west-1",
 });
 
 const router = express.Router();

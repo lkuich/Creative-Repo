@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "creative-repo-storage",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -18,7 +18,8 @@
     "node-cache": "^5.1.2",
     "node-fetch": "2",
     "pg": "^8.7.3",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "serverless-http": "^2.7.0"
   },
   "scripts": {
     "dev": "node src/index.js",
